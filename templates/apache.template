@@ -1,14 +1,13 @@
 <VirtualHost *:{{.Port}}>
-  	ServerAdmin webmaster@localhost
-  	ServerName {{.ServerName}}.{{.TLD}}
+  ServerAdmin webmaster@localhost
+  ServerName {{.ServerName}}.{{.TLD}}
+  DocumentRoot {{.DocumentRoot}}{{.ServerName}}
 
-  	DocumentRoot {{.DocumentRoot}}{{.ServerName}}
+  ErrorLog /var/log/apache2/{{.ServerName}}.{{.TLD}}/error.log
+  CustomLog /var/log/apache2/{{.ServerName}}.{{.TLD}}/access.log combined
 
-    ErrorLog /var/log/apache2/{{.ServerName}}.{{.TLD}}/error.log
-    CustomLog /var/log/apache2/{{.ServerName}}.{{.TLD}}/access.log combined
-
-   <Directory "{{.DocumentRoot}}{{.ServerName}}/">
-     AllowOverride all
-     Require all granted
-   </Directory>
+  <Directory "{{.DocumentRoot}}{{.ServerName}}/">
+    AllowOverride all
+    Require all granted
+  </Directory>
 </VirtualHost>

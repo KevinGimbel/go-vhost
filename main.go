@@ -5,7 +5,6 @@ import (
   "text/template"
   "flag"
   "log"
-  "bytes"
 )
 
 type Vhost struct {
@@ -37,23 +36,18 @@ func assignVhostArguments() *Vhost {
 }
 
 func createConfiguration(path string, config *Vhost) {
-  var buffer bytes.Buffer
-
 	t, err := template.ParseFiles(path)
 	if err != nil {
-		log.Print(err)
-		return
+    log.Print(err)
+    return
 	}
-  buffer.WriteString(*config.Output)
-  buffer.WriteString(*config.ServerName)
-  buffer.WriteString(".conf")
-  filename := buffer.String()
 
-  f, err := os.Create(filename)
-    if err != nil {
-      log.Println("create file: ", err)
-      return
-    }
+  f, err := os.Create("./test.conf")
+
+  if err != nil {
+    log.Println("create file: ", err)
+    return
+  }
 
   err = t.Execute(f, config)
   if err != nil {
