@@ -1,0 +1,5 @@
+server {
+   listen       {{.Port}};
+   server_name {{.ServerName}}.{{.TLD}};
+   access_log   logs/{{.ServerName}}.{{.TLD}}.access.log  main;
+}
