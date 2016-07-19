@@ -6,7 +6,7 @@ import (
   "log"
 )
 
-// Define the vhost structure
+// Defines the vhost structure
 type Vhost struct {
   ServerName *string
   TLD *string
@@ -15,16 +15,18 @@ type Vhost struct {
   Output *string
 }
 
-// function to create the virtual host configuration file.
-// takes the output path and the vhost config (Vhost struct) as arguments
+// createConfiguration takes a template and Vhost struct object to
+// create the new configuration and save it to the path.
 func createConfiguration(path string, config *Vhost) {
 	t, err := template.ParseFiles(path)
 	if err != nil {
     log.Print(err)
     return
 	}
+  // Construct the file name
+  outputPath := *config.Output + *config.ServerName + ".conf"
 
-  f, err := os.Create("./test.conf")
+  f, err := os.Create(outputPath)
 
   if err != nil {
     log.Println("create file: ", err)
@@ -40,6 +42,7 @@ func createConfiguration(path string, config *Vhost) {
 }
 
 // Main function to create a new virtual host entry
+// Takes a Vhost struct as parameter
 func CreateHost(config *Vhost) {
   pwd, _ := os.Getwd()
   createConfiguration(pwd + "/templates/apache.template", config)

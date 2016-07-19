@@ -1,7 +1,5 @@
 package main
 
-// Import the vhost "api"
-// and the flags module(?)
 import (
   vhost "github.com/kevingimbel/vhost/api"
   "flag"
@@ -13,6 +11,8 @@ var port  = flag.String("port", "80", "Defines the port to serve to.")
 var docroot = flag.String("docroot", "/var/www/html/", "Document Root where the files live")
 var output = flag.String("output", "./", "Where to save the file")
 
+// Reads the command line flags and creates a
+// Vhost configuration.
 func assignVhostArguments() *vhost.Vhost {
   flag.Parse()
 
@@ -27,6 +27,7 @@ func assignVhostArguments() *vhost.Vhost {
   return hostConfig
 }
 
+// Calls assignVhostArguments and runs vhost.CreateHost
 func main() {
   config := assignVhostArguments()
   vhost.CreateHost(config)
