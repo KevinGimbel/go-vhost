@@ -13,11 +13,12 @@ type Vhost struct {
   Port *string
   DocumentRoot *string
   Output *string
+  Template *string
 }
 
 // createConfiguration takes a template and Vhost struct object to
 // create the new configuration and save it to the path.
-func createConfiguration(path string, config *Vhost) {
+func CreateConfiguration(path string, config *Vhost) {
 	t, err := template.ParseFiles(path)
 	if err != nil {
     log.Print(err)
@@ -45,5 +46,11 @@ func createConfiguration(path string, config *Vhost) {
 // Takes a Vhost struct as parameter
 func CreateHost(config *Vhost) {
   pwd, _ := os.Getwd()
-  createConfiguration(pwd + "/templates/apache.template", config)
+  var template = pwd + "/templates/apache.template"
+
+  if config.Template != nil {
+    template = *config.Template
+  }
+
+  CreateConfiguration(template, config)
 }
