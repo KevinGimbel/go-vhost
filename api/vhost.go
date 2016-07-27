@@ -26,7 +26,11 @@ func CreateConfiguration(path string, config *Vhost) {
 	}
   // Construct the file name
   outputPath := *config.Output + *config.ServerName + ".conf"
+  pErr := os.MkdirAll(*config.Output, 0755)
 
+  if pErr != nil {
+    log.Println("Unable to create path:", pErr)
+  }
   f, err := os.Create(outputPath)
 
   if err != nil {
